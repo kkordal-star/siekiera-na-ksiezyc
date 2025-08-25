@@ -17,13 +17,18 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [completedTaskTitle, setCompletedTaskTitle] = useState<string>('');
+  const [showPhoneNotification, setShowPhoneNotification] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const phoneTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Cleanup timeout on unmount
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+      }
+      if (phoneTimeoutRef.current) {
+        clearTimeout(phoneTimeoutRef.current);
       }
     };
   }, []);
@@ -46,15 +51,28 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
         setCompletedTaskTitle(completedTask.title);
         setShowCongratulations(true);
         
-        // Clear any existing timeout
+        // Clear any existing timeouts
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
+        if (phoneTimeoutRef.current) {
+          clearTimeout(phoneTimeoutRef.current);
+        }
         
-        // Auto-hide the popup after 5 seconds
+        // Show phone notification after 3 seconds
+        phoneTimeoutRef.current = setTimeout(() => {
+          setShowPhoneNotification(true);
+        }, 3000);
+        
+        // Auto-hide the congratulations popup after 5 seconds
         timeoutRef.current = setTimeout(() => {
           setShowCongratulations(false);
         }, 5000);
+        
+        // Auto-hide the phone notification after 8 seconds (3s delay + 5s display)
+        phoneTimeoutRef.current = setTimeout(() => {
+          setShowPhoneNotification(false);
+        }, 8000);
       }
     }
   };
@@ -238,6 +256,10 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
                       clearTimeout(timeoutRef.current);
                       timeoutRef.current = null;
                     }
+                    if (phoneTimeoutRef.current) {
+                      clearTimeout(phoneTimeoutRef.current);
+                      phoneTimeoutRef.current = null;
+                    }
                   }}
                 >
                   Dziękuję! 😊
@@ -246,6 +268,52 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
             </div>
           </div>
         </>
+      )}
+
+      {/* Phone with Push Notification */}
+      {showPhoneNotification && (
+        <div className="phone-notification-overlay">
+          <div className="phone-container">
+            <div className="phone">
+              <div className="phone-header">
+                <div className="phone-notch"></div>
+                <div className="phone-time">14:32</div>
+                <div className="phone-status">
+                  <div className="battery"></div>
+                  <div className="signal"></div>
+                </div>
+              </div>
+              <div className="phone-screen">
+                <div className="notification-banner">
+                  <div className="notification-icon">🔔</div>
+                  <div className="notification-content">
+                    <div className="notification-title">Powiadomienie</div>
+                    <div className="notification-text">
+                      Uwagi z Twojego zgłoszenia zostały wzięte pod uwagę i naprawione
+                    </div>
+                    <div className="notification-time">Teraz</div>
+                  </div>
+                </div>
+                <div className="phone-apps">
+                  <div className="app-icon">📱</div>
+                  <div className="app-icon">📧</div>
+                  <div className="app-icon">🌐</div>
+                  <div className="app-icon">⚙️</div>
+                </div>
+              </div>
+              <div className="phone-home-button"></div>
+            </div>
+            <div className="phone-label">
+              <p>Powiadomienie push zostało wysłane do klienta</p>
+              <button 
+                className="phone-close-btn"
+                onClick={() => setShowPhoneNotification(false)}
+              >
+                Zamknij
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
