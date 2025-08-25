@@ -166,7 +166,7 @@ const Dashboard: React.FC = () => {
         label: 'Wykonane zadania',
         data: [28, 25, 30, 22, 26],
         backgroundColor: '#2196F3',
-        borderColor: '#1976D2',
+        borderColor: 'rgb(6 52 199)',
         borderWidth: 2,
       },
       {
