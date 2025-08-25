@@ -1,20 +1,37 @@
 import React from 'react';
 import { TabType } from '../App';
+import { 
+  FiTrendingUp, 
+  FiCheckSquare, 
+  FiUsers, 
+  FiPackage, 
+  FiSettings, 
+  FiBarChart2,
+  FiSearch
+} from 'react-icons/fi';
+import { IconType } from 'react-icons';
 
 interface SidebarProps {
   activeTab: TabType;
   onTabChange: (tab: TabType) => void;
 }
 
+interface TabItem {
+  id: TabType;
+  label: string;
+  icon: IconType;
+  hidden?: boolean;
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
-  const tabs = [
-    { id: 'dashboard' as TabType, label: 'Dashboard - Kierownik', icon: '📊' },
-    { id: 'tasks' as TabType, label: 'Zadania', icon: '✅' },
-    { id: 'users' as TabType, label: 'Użytkownicy', icon: '👥' },
-    { id: 'products' as TabType, label: 'Produkt', icon: '📦' },
-    { id: 'settings' as TabType, label: 'Ustawienia', icon: '⚙️' },
-    { id: 'reports' as TabType, label: 'Raporty', icon: '📈' },
-    { id: 'task-detail' as TabType, label: 'Szczegóły zadania', icon: '🔍', hidden: true },
+  const tabs: TabItem[] = [
+    { id: 'dashboard', label: 'Dashboard - Kierownik', icon: FiTrendingUp },
+    { id: 'tasks', label: 'Zadania', icon: FiCheckSquare },
+    { id: 'users', label: 'Użytkownicy', icon: FiUsers },
+    { id: 'products', label: 'Produkt', icon: FiPackage },
+    { id: 'settings', label: 'Ustawienia', icon: FiSettings },
+    { id: 'reports', label: 'Raporty', icon: FiBarChart2 },
+    { id: 'task-detail', label: 'Szczegóły zadania', icon: FiSearch, hidden: true },
   ];
 
   return (
@@ -30,7 +47,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
                 className="nav-link"
                 onClick={() => onTabChange(tab.id)}
               >
-                <span className="nav-icon">{tab.icon}</span>
+                <span className="nav-icon">
+                  {React.createElement(tab.icon as React.ComponentType<any>, { size: 16 })}
+                </span>
                 {tab.label}
               </button>
             </li>

@@ -102,6 +102,12 @@ body {
   gap: 0.75rem;
 }
 
+.nav-link svg {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
 .nav-link:hover {
   background-color: #e3f2fd;
   color: #1976d2;
@@ -114,10 +120,20 @@ body {
   font-weight: 600;
 }
 
+.nav-item.active .nav-link .nav-icon {
+  color: #1976d2;
+}
+
 .nav-icon {
   font-size: 1.1rem;
   width: 20px;
   text-align: center;
+  color: #495057;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover .nav-icon {
+  color: #1976d2;
 }
 
 /* Główna zawartość */
@@ -1065,4 +1081,24 @@ body {
   padding: 2rem;
   color: #6c757d;
   font-style: italic;
+}
+
+/* Placeholder Component Styles */
+.placeholder-content {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.placeholder-content p {
+  color: #6c757d;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
 }
