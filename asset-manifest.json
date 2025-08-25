@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/kkordal-star/siekiera-na-ksiezyc.git/static/css/main.9360ce15.css",
-    "main.js": "/kkordal-star/siekiera-na-ksiezyc.git/static/js/main.fadadf02.js",
-    "index.html": "/kkordal-star/siekiera-na-ksiezyc.git/index.html",
-    "main.9360ce15.css.map": "/kkordal-star/siekiera-na-ksiezyc.git/static/css/main.9360ce15.css.map",
-    "main.fadadf02.js.map": "/kkordal-star/siekiera-na-ksiezyc.git/static/js/main.fadadf02.js.map"
+    "main.css": "/siekiera-na-ksiezyc/static/css/main.9360ce15.css",
+    "main.js": "/siekiera-na-ksiezyc/static/js/main.fadadf02.js",
+    "index.html": "/siekiera-na-ksiezyc/index.html",
+    "main.9360ce15.css.map": "/siekiera-na-ksiezyc/static/css/main.9360ce15.css.map",
+    "main.fadadf02.js.map": "/siekiera-na-ksiezyc/static/js/main.fadadf02.js.map"
   },
   "entrypoints": [
     "static/css/main.9360ce15.css",
