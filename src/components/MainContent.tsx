@@ -1,6 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TabType } from '../App';
 import Confetti from 'react-confetti';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from 'chart.js';
+import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2';
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 interface MainContentProps {
   activeTab: TabType;
@@ -102,6 +130,199 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [completedTaskTitle, setCompletedTaskTitle] = useState('');
 
+
+
+  const storeComparisonData = {
+    labels: ['Warszawa Centrum', 'Kraków', 'Poznań', 'Wrocław', 'Gdańsk', 'Twój Sklep'],
+    datasets: [
+      {
+        label: 'NPS Score',
+        data: [72, 68, 65, 70, 73, 82],
+        backgroundColor: [
+          '#3DAC19',
+          '#FFCC33',
+          '#F9062F',
+          '#4CAF50',
+          '#FF9800',
+          '#9C27B0',
+        ],
+      },
+    ],
+  };
+
+  const employeeFeedbackData = {
+    labels: ['Anna Kowalska', 'Piotr Wiśniewski', 'Maria Nowak', 'Tomasz Lewandowski', 'Katarzyna Dąbrowska', 'Jan Zieliński'],
+    datasets: [
+      {
+        label: 'Pochwały (%)',
+        data: [85.7, 61.5, 93.8, 42.9, 76.9, 69.2],
+        backgroundColor: '#3DAC19',
+        borderColor: '#3DAC19',
+        borderWidth: 1,
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Krytyka (%)',
+        data: [14.3, 38.5, 6.2, 57.1, 23.1, 30.8],
+        backgroundColor: '#F9062F',
+        borderColor: '#F9062F',
+        borderWidth: 1,
+        stack: 'Stack 0',
+      },
+    ],
+  };
+
+  const customerSentimentData = {
+    labels: ['Pozytywny', 'Neutralny', 'Negatywny'],
+    datasets: [
+      {
+        data: [65, 25, 10],
+        backgroundColor: [
+          '#3DAC19',
+          '#FFCC33',
+          '#F9062F',
+        ],
+        borderColor: [
+          '#3DAC19',
+          '#FFCC33',
+          '#F9062F',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const sentimentByTagsData = {
+    labels: ['Jakość', 'Obsługa', 'Ceny', 'Dostawa', 'Atmosfera'],
+    datasets: [
+      {
+        label: 'Pozytywny (%)',
+        data: [60, 50, 40, 55, 65],
+        backgroundColor: '#3DAC19',
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Neutralny (%)',
+        data: [25, 30, 35, 25, 20],
+        backgroundColor: '#FFCC33',
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Negatywny (%)',
+        data: [15, 20, 25, 20, 15],
+        backgroundColor: '#F9062F',
+        stack: 'Stack 0',
+      },
+    ],
+  };
+
+  const taskResolutionData = {
+    labels: ['Rozwiązane', 'Nierozwiązane'],
+    datasets: [
+      {
+        data: [78, 22],
+        backgroundColor: ['#3DAC19', '#F9062F'],
+        borderColor: ['#3DAC19', '#F9062F'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const responseRateData = {
+    labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
+    datasets: [
+      {
+        label: 'Response Rate (%)',
+        data: [85, 88, 92, 89, 91, 94],
+        borderColor: '#FFCC33',
+        backgroundColor: 'rgba(255, 204, 51, 0.2)',
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  const customerBasketValueData = {
+    labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
+    datasets: [
+      {
+        label: 'Wartość koszyka (zł)',
+        data: [45, 52, 48, 58, 62, 68],
+        borderColor: '#9C27B0',
+        backgroundColor: 'rgba(156, 39, 176, 0.2)',
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  // Chart options
+  const lineChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Trend w czasie',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  const barChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Porównanie danych',
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          callback: function(value: any) {
+            return value + '%';
+          }
+        }
+      },
+    },
+  };
+
+  const pieChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Rozkład procentowy',
+      },
+    },
+  };
+
   const handleResponsibilityChange = (taskId: string, newResponsibility: boolean) => {
     setTasks(tasks.map(task => 
       task.id === taskId ? { ...task, responsibility: newResponsibility } : task
@@ -197,8 +418,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
     switch (tab) {
       case 'dashboard':
         return {
-          title: 'Dashboard',
-          description: 'Widok główny panelu administracyjnego. Tutaj będą wyświetlane najważniejsze informacje i statystyki.'
+          title: 'Dashboard - Kierownik',
+          description: 'Kompleksowy przegląd kluczowych metryk i wskaźników wydajności sklepu.'
         };
       case 'tasks':
         return {
@@ -232,6 +453,54 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
         };
     }
   };
+
+  const renderDashboard = () => (
+    <div className="dashboard-container">
+      <div className="dashboard-grid">
+        {/* Store Comparison */}
+        <div className="chart-card">
+          <h3>Porównanie z Innymi Filiami</h3>
+          <Bar data={storeComparisonData} options={barChartOptions} />
+        </div>
+
+        {/* Employee Feedback */}
+        <div className="chart-card">
+          <h3>Feedback Pracowników</h3>
+          <Bar data={employeeFeedbackData} options={barChartOptions} />
+        </div>
+
+        {/* Customer Sentiment */}
+        <div className="chart-card">
+          <h3>Ogólny Sentyment Klientów</h3>
+          <Pie data={customerSentimentData} options={pieChartOptions} />
+        </div>
+
+        {/* Sentiment by Tags */}
+        <div className="chart-card">
+          <h3>Sentyment w Podziale na Tagi</h3>
+          <Bar data={sentimentByTagsData} options={barChartOptions} />
+        </div>
+
+        {/* Task Resolution */}
+        <div className="chart-card">
+          <h3>Rozwiązanie Zadań</h3>
+          <Doughnut data={taskResolutionData} options={pieChartOptions} />
+        </div>
+
+        {/* Response Rate */}
+        <div className="chart-card">
+          <h3>Response Rate</h3>
+          <Line data={responseRateData} options={lineChartOptions} />
+        </div>
+
+        {/* Customer Basket Value */}
+        <div className="chart-card">
+          <h3>Wartość Koszyka Klientów</h3>
+          <Line data={customerBasketValueData} options={lineChartOptions} />
+        </div>
+      </div>
+    </div>
+  );
 
   const content = getContent(activeTab);
 
@@ -360,7 +629,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
         <p>{content.description}</p>
       </div>
       
-      {activeTab === 'tasks' ? renderTasksList() : (
+      {activeTab === 'dashboard' ? renderDashboard() : 
+       activeTab === 'tasks' ? renderTasksList() : (
         <div className="content-placeholder">
           <h2>{content.title}</h2>
           <p>{content.description}</p>
