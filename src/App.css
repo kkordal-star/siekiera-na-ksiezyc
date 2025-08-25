@@ -224,6 +224,24 @@ body {
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
 }
 
+.clear-filters-btn {
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.clear-filters-btn:hover {
+  background: #e9ecef;
+  color: #495057;
+  border-color: #adb5bd;
+}
+
 .add-task-btn {
   padding: 0.75rem 1.5rem;
   background: #1976d2;
@@ -263,18 +281,23 @@ body {
 
 .tasks-table-content th:nth-child(1),
 .tasks-table-content td:nth-child(1) {
-  width: 45%;
+  width: 40%;
 }
 
 .tasks-table-content th:nth-child(2),
-.tasks-table-content td:nth-child(2),
-.tasks-table-content th:nth-child(3),
-.tasks-table-content td:nth-child(3) {
-  width: 20%;
+.tasks-table-content td:nth-child(2) {
+  width: 15%;
 }
 
+.tasks-table-content th:nth-child(3),
+.tasks-table-content td:nth-child(3),
 .tasks-table-content th:nth-child(4),
 .tasks-table-content td:nth-child(4) {
+  width: 15%;
+}
+
+.tasks-table-content th:nth-child(5),
+.tasks-table-content td:nth-child(5) {
   width: 15%;
 }
 
@@ -339,7 +362,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-.status-badge.clickable, .priority-badge.clickable {
+.status-badge.clickable, .priority-badge.clickable, .responsibility-badge.clickable {
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -348,43 +371,42 @@ body {
   gap: 0.25rem;
 }
 
-.status-badge.clickable:hover, .priority-badge.clickable:hover {
+.status-badge.clickable:hover, .priority-badge.clickable:hover, .responsibility-badge.clickable:hover {
   transform: scale(1.05);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.status-badge.clickable::after {
+.status-badge.clickable::after, .priority-badge.clickable::after, .responsibility-badge.clickable::after {
   content: "✏️";
   font-size: 0.7rem;
   opacity: 0.7;
 }
 
-.priority-badge.clickable::after {
-  content: "✏️";
-  font-size: 0.7rem;
-  opacity: 0.7;
-}
-
-.status-dropdown, .priority-dropdown {
+.status-dropdown, .priority-dropdown, .responsibility-dropdown {
   position: relative;
 }
 
-.status-select, .priority-select {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid #1976d2;
-  border-radius: 8px;
+.status-select, .priority-select, .responsibility-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
   background: white;
-  font-size: 0.8rem;
-  color: #1976d2;
+  font-size: 0.9rem;
+  color: #495057;
   font-weight: 500;
   cursor: pointer;
   min-width: 120px;
+  transition: all 0.2s ease;
 }
 
-.status-select:focus, .priority-select:focus {
+.status-select:focus, .priority-select:focus, .responsibility-select:focus {
   outline: none;
-  border-color: #1565c0;
+  border-color: #1976d2;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.status-select:hover, .priority-select:hover, .responsibility-select:hover {
+  border-color: #adb5bd;
 }
 
 .tag {
@@ -399,9 +421,19 @@ body {
   white-space: nowrap;
 }
 
-.tasks-table-content td:nth-child(4) {
+.tasks-table-content td:nth-child(5) {
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+.priority-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
 }
 
 /* Responsywność */
@@ -437,5 +469,135 @@ body {
     margin-bottom: 0;
     margin-right: 0.5rem;
     flex-shrink: 0;
+  }
+}
+
+/* Congratulations Popup Styles */
+.congratulations-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.congratulations-popup {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  animation: slideIn 0.6s ease-out;
+  overflow: hidden;
+}
+
+.congratulations-content {
+  padding: 2.5rem;
+  text-align: center;
+  color: white;
+}
+
+.congratulations-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.congratulations-content h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.congratulations-content p {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.completed-task {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.completed-task strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.completed-task p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #FFD700;
+}
+
+.congratulations-close {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #333;
+  border: none;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  margin-top: 1rem;
+}
+
+.congratulations-close:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+.congratulations-close:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
   }
 }
