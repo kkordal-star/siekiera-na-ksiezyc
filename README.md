@@ -1,46 +1,106 @@
-# Getting Started with Create React App
+# Panel Administracyjny - React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Nowoczesny panel administracyjny stworzony w React z TypeScript.
 
-## Available Scripts
+## Funkcjonalności
 
-In the project directory, you can run:
+- **Nagłówek** z miejscem na logo i tytułem
+- **Panel boczny** z nawigacją (Dashboard, Użytkownicy, Produkty, Ustawienia, Raporty)
+- **Główna zawartość** zmieniająca się w zależności od wybranej zakładki
+- **Responsywny design** dostosowujący się do różnych rozmiarów ekranu
+- **Nowoczesny wygląd** z gradientami i efektami hover
+- **TypeScript** dla lepszej kontroli typów
 
-### `npm start`
+## Struktura komponentów
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `App.tsx` - główny komponent aplikacji
+- `Header.tsx` - komponent nagłówka z logo
+- `Sidebar.tsx` - komponent bocznego panelu nawigacyjnego
+- `MainContent.tsx` - komponent głównej zawartości
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Uruchomienie
 
-### `npm test`
+1. Zainstaluj zależności:
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Uruchom serwer deweloperski:
+   ```bash
+   npm start
+   ```
 
-### `npm run build`
+3. Otwórz [http://localhost:3000](http://localhost:3000) w przeglądarce
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Dostosowanie
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Zmiana logo
+Zastąp tekst "LOGO" w komponencie `Header.tsx` swoim obrazkiem:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```tsx
+<div className="logo">
+  <img src="twoje-logo.png" alt="Logo" style={{width: '100%', height: '100%', objectFit: 'contain'}} />
+</div>
+```
 
-### `npm run eject`
+### Dodawanie nowych zakładek
+1. Dodaj nowy typ w `App.tsx` w `TabType`
+2. Dodaj nową zakładkę w `Sidebar.tsx`
+3. Dodaj odpowiednią treść w `MainContent.tsx`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Zmiana kolorów
+Edytuj zmienne CSS w pliku `App.css` lub dodaj CSS Variables.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Technologie
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- React 19
+- TypeScript
+- CSS3 (Flexbox, Grid, Animacje)
+- Responsive Design
+- Modern CSS Features (backdrop-filter, gradients)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Skrypty dostępne
 
-## Learn More
+- `npm start` - uruchamia serwer deweloperski
+- `npm run build` - buduje aplikację do produkcji
+- `npm test` - uruchamia testy
+- `npm run eject` - usuwa create-react-app (nieodwracalne)
+- `npm run deploy` - wdraża aplikację na GitHub Pages
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Wdrażanie na GitHub Pages
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. Przygotowanie
+Upewnij się, że masz zainstalowany pakiet `gh-pages`:
+```bash
+npm install --save-dev gh-pages
+```
+
+### 2. Konfiguracja
+W `package.json` ustaw prawidłowy `homepage`:
+```json
+{
+  "homepage": "https://twoja-nazwa-uzytkownika.github.io/nazwa-repozytorium"
+}
+```
+
+### 3. Wdrożenie
+```bash
+npm run deploy
+```
+
+### 4. Konfiguracja GitHub
+1. Przejdź do swojego repozytorium na GitHub
+2. Kliknij **Settings** → **Pages**
+3. W **Source** wybierz **Deploy from a branch**
+4. W **Branch** wybierz **gh-pages** i **/(root)**
+5. Kliknij **Save**
+
+Po kilku minutach Twoja aplikacja będzie dostępna pod adresem z `homepage`!
+
+## Przeglądarki
+
+Panel jest kompatybilny z nowoczesnymi przeglądarkami:
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
