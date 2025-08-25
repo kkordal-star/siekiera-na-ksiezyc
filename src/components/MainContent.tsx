@@ -26,17 +26,17 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab, selectedTask, onTa
         };
       case 'tasks':
         return {
-          title: 'Zarządzanie zadaniami',
+          title: 'Zadania',
           description: 'Panel do zarządzania zadaniami i projektami. Twórz, edytuj i śledź postęp prac.'
         };
       case 'users':
         return {
-          title: 'Zarządzanie użytkownikami',
+          title: 'Użytkownicy',
           description: 'Panel do zarządzania użytkownikami systemu. Lista, dodawanie, edycja i usuwanie kont użytkowników.'
         };
       case 'products':
         return {
-          title: 'Zarządzanie produktami',
+          title: 'Produkty',
           description: 'Panel do zarządzania produktami. Katalog, ceny, dostępność i inne parametry produktów.'
         };
       case 'settings':

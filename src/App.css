@@ -29,14 +29,9 @@ body {
 }
 
 .logo {
-  width: 60px;
-  height: 60px;
-  background: #f8f9fa;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #dee2e6;
   transition: transform 0.3s ease;
 }
 
@@ -44,10 +39,10 @@ body {
   transform: scale(1.05);
 }
 
-.logo-placeholder {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #495057;
+.logo-image {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
 }
 
 .header h1 {

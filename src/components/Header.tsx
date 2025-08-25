@@ -4,9 +4,8 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="logo">
-        <div className="logo-placeholder">LOGO</div>
+        <img src={`${process.env.PUBLIC_URL}/customerhero.svg`} alt="Customer Hero Logo" className="logo-image" />
       </div>
-      <h1>Panel Administracyjny</h1>
     </header>
   );
 };
