@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/siekiera-na-ksiezyc/static/css/main.9360ce15.css",
-    "main.js": "/siekiera-na-ksiezyc/static/js/main.fadadf02.js",
+    "main.css": "/siekiera-na-ksiezyc/static/css/main.2c58cec0.css",
+    "main.js": "/siekiera-na-ksiezyc/static/js/main.dd8e378b.js",
     "index.html": "/siekiera-na-ksiezyc/index.html",
-    "main.9360ce15.css.map": "/siekiera-na-ksiezyc/static/css/main.9360ce15.css.map",
-    "main.fadadf02.js.map": "/siekiera-na-ksiezyc/static/js/main.fadadf02.js.map"
+    "main.2c58cec0.css.map": "/siekiera-na-ksiezyc/static/css/main.2c58cec0.css.map",
+    "main.dd8e378b.js.map": "/siekiera-na-ksiezyc/static/js/main.dd8e378b.js.map"
   },
   "entrypoints": [
-    "static/css/main.9360ce15.css",
-    "static/js/main.fadadf02.js"
+    "static/css/main.2c58cec0.css",
+    "static/js/main.dd8e378b.js"
   ]
 }
