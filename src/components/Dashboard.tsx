@@ -165,8 +165,8 @@ const Dashboard: React.FC = () => {
       {
         label: 'Wykonane zadania',
         data: [28, 25, 30, 22, 26],
-        backgroundColor: '#2196F3',
-        borderColor: 'rgb(6 52 199)',
+        backgroundColor: '#4A90E2',
+        borderColor: '#357ABD',
         borderWidth: 2,
       },
       {
@@ -177,6 +177,29 @@ const Dashboard: React.FC = () => {
         borderWidth: 2,
       },
     ],
+  };
+
+  // Special options for manager comparison (no stacking)
+  const managerComparisonOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Porównanie z innymi zespołami',
+      },
+    },
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        stacked: false,
+        beginAtZero: true,
+      },
+    },
   };
 
   const personalMetricsData = {
@@ -415,7 +438,7 @@ const Dashboard: React.FC = () => {
           {/* Manager Comparison */}
           <div className="chart-card">
             <h3>Porównanie z Innymi Zespołami</h3>
-            <Bar data={managerComparisonData} options={barChartOptions} />
+            <Bar data={managerComparisonData} options={managerComparisonOptions} />
           </div>
 
 
