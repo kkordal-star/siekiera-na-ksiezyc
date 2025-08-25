@@ -21,8 +21,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab, selectedTask, onTa
     switch (tab) {
       case 'dashboard':
         return {
-          title: 'Dashboard - Kierownik',
-          description: 'Kompleksowy przegląd kluczowych metryk i wskaźników wydajności sklepu.'
+          title: 'Dashboard',
+          description: 'Kompleksowy przegląd kluczowych metryk i wskaźników wydajności Twojej placówki.'
         };
       case 'tasks':
         return {

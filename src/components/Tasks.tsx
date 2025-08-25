@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Task } from '../types';
 import { mockTasks } from '../data/mockData';
-import { getStatusColor, getPriorityColor, getStatusLabel, getPriorityLabel } from '../utils/helpers';
+import { getStatusColor, getPriorityColor, getStatusLabel, getPriorityLabel, sortTasksByPriority } from '../utils/helpers';
 import Confetti from 'react-confetti';
 
 interface TasksProps {
@@ -78,7 +78,7 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
   };
 
   const getFilteredTasks = () => {
-    return tasks.filter(task => {
+    const filtered = tasks.filter(task => {
       // Status filter
       if (statusFilter && task.status !== statusFilter) return false;
       
@@ -102,6 +102,9 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
       
       return true;
     });
+
+    // Sortowanie według priorytetów od najwyższego do najniższego
+    return sortTasksByPriority(filtered);
   };
 
 
@@ -126,10 +129,10 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
             onChange={(e) => setPriorityFilter(e.target.value)}
           >
             <option value="">Wszystkie priorytety</option>
-            <option value="low">Niska</option>
-            <option value="medium">Średnia</option>
-            <option value="high">Wysoka</option>
-            <option value="urgent">Pilne</option>
+            <option value="low">Niski</option>
+            <option value="medium">Średni</option>
+            <option value="high">Wysoki</option>
+            <option value="urgent">Pilny</option>
           </select>
           <select 
             className="filter-select"

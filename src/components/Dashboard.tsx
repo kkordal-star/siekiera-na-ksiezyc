@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiHome, FiUser } from 'react-icons/fi';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -159,7 +160,7 @@ const Dashboard: React.FC = () => {
   };
 
   const managerComparisonData = {
-    labels: ['Ty', 'Kierownik A', 'Kierownik B', 'Kierownik C', 'Kierownik D'],
+    labels: ['Ty', 'Zespół A', 'Zespół B', 'Zespół C', 'Zespół D'],
     datasets: [
       {
         label: 'Wykonane zadania',
@@ -312,25 +313,24 @@ const Dashboard: React.FC = () => {
           className={`switcher-btn ${activeView === 'store' ? 'active' : ''}`}
           onClick={() => setActiveView('store')}
         >
-          <span className="switcher-icon">🏪</span>
-          <span className="switcher-text">Kierownik - Sklep</span>
+          <span className="switcher-icon">
+            {React.createElement(FiHome as React.ComponentType<any>, { size: 16 })}
+          </span>
+          <span className="switcher-text">Placówka</span>
         </button>
         <button
           className={`switcher-btn ${activeView === 'manager' ? 'active' : ''}`}
           onClick={() => setActiveView('manager')}
         >
-          <span className="switcher-icon">👤</span>
-          <span className="switcher-text">Kierownik - Ja</span>
+          <span className="switcher-icon">
+            {React.createElement(FiUser as React.ComponentType<any>, { size: 16 })}
+          </span>
+          <span className="switcher-text">Zespół</span>
         </button>
       </div>
 
-      {activeView === 'store' ? (
+              {activeView === 'store' ? (
         <div className="dashboard-grid">
-        {/* Task Resolution */}
-        <div className="chart-card">
-          <h3>Rozwiązanie Zadań</h3>
-          <Doughnut data={taskResolutionData} options={pieChartOptions} />
-        </div>
 
         {/* Customer Sentiment */}
         <div className="chart-card">
@@ -342,24 +342,6 @@ const Dashboard: React.FC = () => {
         <div className="chart-card">
           <h3>Sentyment w Podziale na Tagi</h3>
           <Bar data={sentimentByTagsData} options={barChartOptions} />
-        </div>
-
-        {/* Employee Quotes */}
-        <div className="chart-card employee-quotes">
-          <h3>Feedback o pracownikach</h3>
-          <div className="quotes-container">
-            {employeeQuotesData.map((employee, index) => (
-              <div key={index} className={`quote-card ${employee.sentiment}`}>
-                <div className="quote-header">
-                  <h4>{employee.name}</h4>
-                  <span className="role">{employee.role}</span>
-                </div>
-                <blockquote className="quote-text">
-                  {employee.quote}
-                </blockquote>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Store Comparison */}
@@ -389,24 +371,50 @@ const Dashboard: React.FC = () => {
           <h3>Wartość Koszyka Klientów</h3>
           <Line data={customerBasketValueData} options={lineChartOptions} />
         </div>
+
+        {/* Sales Growth - moved from Zespół */}
+        <div className="chart-card">
+          <h3>Wzrost Sprzedaży</h3>
+          <Line data={salesGrowthData} options={lineChartOptions} />
+        </div>
         </div>
       ) : (
         <div className="dashboard-grid">
+          {/* Task Resolution - moved from Placówka */}
+          <div className="chart-card">
+            <h3>Rozwiązanie Zadań</h3>
+            <Doughnut data={taskResolutionData} options={pieChartOptions} />
+          </div>
+
           {/* Personal Task Performance */}
           <div className="chart-card">
-            <h3>Moje Wykonane Zadania</h3>
+            <h3>Wykonane Zadania</h3>
             <Bar data={personalTaskData} options={personalTasksBarOptions} />
           </div>
 
-          {/* Sales Growth */}
-          <div className="chart-card">
-            <h3>Mój Wzrost Sprzedaży</h3>
-            <Line data={salesGrowthData} options={lineChartOptions} />
+          {/* Employee Quotes - moved from Placówka */}
+          <div className="chart-card employee-quotes">
+            <h3>Feedback o pracownikach</h3>
+            <div className="quotes-container">
+              {employeeQuotesData.map((employee, index) => (
+                <div key={index} className={`quote-card ${employee.sentiment}`}>
+                  <div className="quote-header">
+                    <h4>{employee.name}</h4>
+                    <span className="role">{employee.role}</span>
+                  </div>
+                  <blockquote className="quote-text">
+                    {employee.quote}
+                  </blockquote>
+                </div>
+              ))}
+            </div>
           </div>
+
+
 
           {/* Manager Comparison */}
           <div className="chart-card">
-            <h3>Porównanie z Innymi Kierownikami</h3>
+            <h3>Porównanie z Innymi Zespołami</h3>
             <Bar data={managerComparisonData} options={barChartOptions} />
           </div>
 
@@ -414,7 +422,7 @@ const Dashboard: React.FC = () => {
 
           {/* Personal Stats Cards */}
           <div className="chart-card">
-            <h3>Moje Statystyki</h3>
+            <h3>Statystyki</h3>
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-value">28</div>
@@ -441,7 +449,7 @@ const Dashboard: React.FC = () => {
 
           {/* Personal Achievements */}
           <div className="chart-card">
-            <h3>Moje Osiągnięcia</h3>
+            <h3>Osiągnięcia</h3>
             <div className="achievements-container">
               <div className="achievement-item">
                 <span className="achievement-icon">🏆</span>

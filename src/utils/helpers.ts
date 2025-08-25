@@ -30,10 +30,28 @@ export const getStatusLabel = (status: Task['status']) => {
 
 export const getPriorityLabel = (priority: Task['priority']) => {
   switch (priority) {
-    case 'low': return 'Niska';
-    case 'medium': return 'Średnia';
-    case 'high': return 'Wysoka';
-    case 'urgent': return 'Pilne';
-    default: return 'Nieznana';
+    case 'low': return 'Niski';
+    case 'medium': return 'Średni';
+    case 'high': return 'Wysoki';
+    case 'urgent': return 'Pilny';
+    default: return 'Nieznany';
   }
+};
+
+export const getPriorityOrder = (priority: Task['priority']) => {
+  switch (priority) {
+    case 'urgent': return 4;
+    case 'high': return 3;
+    case 'medium': return 2;
+    case 'low': return 1;
+    default: return 0;
+  }
+};
+
+export const sortTasksByPriority = (tasks: Task[]) => {
+  return [...tasks].sort((a, b) => {
+    const priorityA = getPriorityOrder(a.priority);
+    const priorityB = getPriorityOrder(b.priority);
+    return priorityB - priorityA; // Sortowanie malejąco (od najwyższego do najniższego)
+  });
 };
