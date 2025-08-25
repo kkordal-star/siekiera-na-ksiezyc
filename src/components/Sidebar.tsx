@@ -8,11 +8,12 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const tabs = [
-    { id: 'dashboard' as TabType, label: 'Dashboard' },
-    { id: 'users' as TabType, label: 'Użytkownicy' },
-    { id: 'products' as TabType, label: 'Produkty' },
-    { id: 'settings' as TabType, label: 'Ustawienia' },
-    { id: 'reports' as TabType, label: 'Raporty' },
+    { id: 'dashboard' as TabType, label: 'Dashboard', icon: '📊' },
+    { id: 'tasks' as TabType, label: 'Zadania', icon: '✅' },
+    { id: 'users' as TabType, label: 'Użytkownicy', icon: '👥' },
+    { id: 'products' as TabType, label: 'Produkty', icon: '📦' },
+    { id: 'settings' as TabType, label: 'Ustawienia', icon: '⚙️' },
+    { id: 'reports' as TabType, label: 'Raporty', icon: '📈' },
   ];
 
   return (
@@ -28,6 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
                 className="nav-link"
                 onClick={() => onTabChange(tab.id)}
               >
+                <span className="nav-icon">{tab.icon}</span>
                 {tab.label}
               </button>
             </li>

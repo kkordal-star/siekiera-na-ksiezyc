@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
 
-export type TabType = 'dashboard' | 'users' | 'products' | 'settings' | 'reports';
+export type TabType = 'dashboard' | 'tasks' | 'users' | 'products' | 'settings' | 'reports';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');

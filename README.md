@@ -1,106 +1,72 @@
-# Panel Administracyjny - React
+# Admin Panel React
 
-Nowoczesny panel administracyjny stworzony w React z TypeScript.
+Nowoczesny panel administracyjny zbudowany w React i TypeScript.
 
 ## Funkcjonalności
 
-- **Nagłówek** z miejscem na logo i tytułem
-- **Panel boczny** z nawigacją (Dashboard, Użytkownicy, Produkty, Ustawienia, Raporty)
-- **Główna zawartość** zmieniająca się w zależności od wybranej zakładki
-- **Responsywny design** dostosowujący się do różnych rozmiarów ekranu
-- **Nowoczesny wygląd** z gradientami i efektami hover
-- **TypeScript** dla lepszej kontroli typów
+### Dashboard
+- Widok główny z najważniejszymi informacjami i statystykami
 
-## Struktura komponentów
+### Zarządzanie zadaniami (Tasks)
+- Lista zadań z możliwością filtrowania i wyszukiwania
+- Statusy zadań: Do zrobienia, W trakcie, Do sprawdzenia, Zakończone
+- Poziomy priorytetów: Niska, Średnia, Wysoka, Pilne
+- Przypisywanie zadań do użytkowników
+- System tagów dla lepszej organizacji
+- Terminy realizacji zadań
+- Akcje: Edytuj i Usuń
 
-- `App.tsx` - główny komponent aplikacji
-- `Header.tsx` - komponent nagłówka z logo
-- `Sidebar.tsx` - komponent bocznego panelu nawigacyjnego
-- `MainContent.tsx` - komponent głównej zawartości
+### Zarządzanie użytkownikami
+- Lista użytkowników systemu
+- Dodawanie, edycja i usuwanie kont
 
-## Uruchomienie
+### Zarządzanie produktami
+- Katalog produktów
+- Ceny i dostępność
+- Parametry produktów
 
-1. Zainstaluj zależności:
-   ```bash
-   npm install
-   ```
+### Ustawienia systemu
+- Konfiguracja systemu
+- Preferencje użytkownika
 
-2. Uruchom serwer deweloperski:
-   ```bash
-   npm start
-   ```
-
-3. Otwórz [http://localhost:3000](http://localhost:3000) w przeglądarce
-
-## Dostosowanie
-
-### Zmiana logo
-Zastąp tekst "LOGO" w komponencie `Header.tsx` swoim obrazkiem:
-
-```tsx
-<div className="logo">
-  <img src="twoje-logo.png" alt="Logo" style={{width: '100%', height: '100%', objectFit: 'contain'}} />
-</div>
-```
-
-### Dodawanie nowych zakładek
-1. Dodaj nowy typ w `App.tsx` w `TabType`
-2. Dodaj nową zakładkę w `Sidebar.tsx`
-3. Dodaj odpowiednią treść w `MainContent.tsx`
-
-### Zmiana kolorów
-Edytuj zmienne CSS w pliku `App.css` lub dodaj CSS Variables.
+### Raporty i statystyki
+- Generowanie raportów
+- Analizy danych w czasie rzeczywistym
 
 ## Technologie
 
-- React 19
+- React 18
 - TypeScript
-- CSS3 (Flexbox, Grid, Animacje)
-- Responsive Design
-- Modern CSS Features (backdrop-filter, gradients)
+- CSS3 z Grid i Flexbox
+- Responsywny design
 
-## Skrypty dostępne
+## Uruchomienie
 
-- `npm start` - uruchamia serwer deweloperski
-- `npm run build` - buduje aplikację do produkcji
-- `npm test` - uruchamia testy
-- `npm run eject` - usuwa create-react-app (nieodwracalne)
-- `npm run deploy` - wdraża aplikację na GitHub Pages
-
-## Wdrażanie na GitHub Pages
-
-### 1. Przygotowanie
-Upewnij się, że masz zainstalowany pakiet `gh-pages`:
 ```bash
-npm install --save-dev gh-pages
+npm install
+npm start
 ```
 
-### 2. Konfiguracja
-W `package.json` ustaw prawidłowy `homepage`:
-```json
-{
-  "homepage": "https://twoja-nazwa-uzytkownika.github.io/nazwa-repozytorium"
-}
+Aplikacja będzie dostępna pod adresem: http://localhost:3000
+
+## Struktura projektu
+
+```
+src/
+├── components/
+│   ├── Header.tsx          # Nagłówek aplikacji
+│   ├── Sidebar.tsx         # Menu boczne z nawigacją
+│   └── MainContent.tsx     # Główna zawartość z zarządzaniem zadaniami
+├── App.tsx                 # Główny komponent aplikacji
+└── App.css                 # Style CSS
 ```
 
-### 3. Wdrożenie
-```bash
-npm run deploy
-```
+## Layout zadań (ClickUp-style)
 
-### 4. Konfiguracja GitHub
-1. Przejdź do swojego repozytorium na GitHub
-2. Kliknij **Settings** → **Pages**
-3. W **Source** wybierz **Deploy from a branch**
-4. W **Branch** wybierz **gh-pages** i **/(root)**
-5. Kliknij **Save**
-
-Po kilku minutach Twoja aplikacja będzie dostępna pod adresem z `homepage`!
-
-## Przeglądarki
-
-Panel jest kompatybilny z nowoczesnymi przeglądarkami:
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
+Interfejs zarządzania zadaniami został zaprojektowany w stylu ClickUp z:
+- Tabelą zadań z kolumnami: Zadanie, Status, Priorytet, Przypisane do, Termin, Tagi, Akcje
+- Filtrami po statusie i priorytecie
+- Wyszukiwarką zadań
+- Przyciskiem dodawania nowych zadań
+- Kolorowymi oznaczeniami statusów i priorytetów
+- Responsywnym designem
