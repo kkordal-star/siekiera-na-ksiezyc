@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,6 +30,8 @@ ChartJS.register(
 );
 
 const Dashboard: React.FC = () => {
+  const [activeView, setActiveView] = useState<'store' | 'manager'>('store');
+  
   const storeComparisonData = {
     labels: ['Warszawa Centrum', 'Kraków', 'Poznań', 'Wrocław', 'Gdańsk', 'Twój Sklep'],
     datasets: [
@@ -128,6 +130,78 @@ const Dashboard: React.FC = () => {
     ],
   };
 
+  // Data for Manager - Personal view
+  const personalTaskData = {
+    labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
+    datasets: [
+      {
+        label: 'Wykonane zadania',
+        data: [12, 18, 15, 22, 25, 28],
+        backgroundColor: '#4CAF50',
+        borderColor: '#388E3C',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const salesGrowthData = {
+    labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
+    datasets: [
+      {
+        label: 'Wzrost sprzedaży (%)',
+        data: [5, 8, 12, 15, 18, 22],
+        borderColor: '#FF9800',
+        backgroundColor: 'rgba(255, 152, 0, 0.2)',
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  const managerComparisonData = {
+    labels: ['Ty', 'Kierownik A', 'Kierownik B', 'Kierownik C', 'Kierownik D'],
+    datasets: [
+      {
+        label: 'Wykonane zadania',
+        data: [28, 25, 30, 22, 26],
+        backgroundColor: '#2196F3',
+        borderColor: '#1976D2',
+        borderWidth: 2,
+      },
+      {
+        label: 'Satyfakcja klientów (%)',
+        data: [85, 78, 82, 75, 80],
+        backgroundColor: '#4CAF50',
+        borderColor: '#388E3C',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const personalMetricsData = {
+    labels: ['Efektywność', 'Szybkość', 'Jakość', 'Komunikacja', 'Innowacyjność'],
+    datasets: [
+      {
+        data: [85, 78, 92, 88, 75],
+        backgroundColor: [
+          '#4CAF50',
+          '#2196F3',
+          '#FF9800',
+          '#9C27B0',
+          '#F44336',
+        ],
+        borderColor: [
+          '#388E3C',
+          '#1976D2',
+          '#F57C00',
+          '#7B1FA2',
+          '#D32F2F',
+        ],
+        borderWidth: 2,
+      },
+    ],
+  };
+
   // Chart options
   const lineChartOptions = {
     responsive: true,
@@ -182,6 +256,41 @@ const Dashboard: React.FC = () => {
     },
   };
 
+  // Special options for personal tasks (no percentages, no stacking)
+  const personalTasksBarOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Ilość wykonanych zadań',
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            return context.dataset.label + ': ' + context.parsed.y + ' zadań';
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        stacked: false,
+        beginAtZero: true,
+        ticks: {
+          callback: function(value: any) {
+            return value + ' zadań';
+          }
+        }
+      },
+    },
+  };
+
   const pieChartOptions = {
     responsive: true,
     plugins: {
@@ -197,7 +306,26 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-grid">
+      {/* Dashboard View Switcher */}
+      <div className="dashboard-switcher">
+        <button
+          className={`switcher-btn ${activeView === 'store' ? 'active' : ''}`}
+          onClick={() => setActiveView('store')}
+        >
+          <span className="switcher-icon">🏪</span>
+          <span className="switcher-text">Kierownik - Sklep</span>
+        </button>
+        <button
+          className={`switcher-btn ${activeView === 'manager' ? 'active' : ''}`}
+          onClick={() => setActiveView('manager')}
+        >
+          <span className="switcher-icon">👤</span>
+          <span className="switcher-text">Kierownik - Ja</span>
+        </button>
+      </div>
+
+      {activeView === 'store' ? (
+        <div className="dashboard-grid">
         {/* Task Resolution */}
         <div className="chart-card">
           <h3>Rozwiązanie Zadań</h3>
@@ -261,7 +389,85 @@ const Dashboard: React.FC = () => {
           <h3>Wartość Koszyka Klientów</h3>
           <Line data={customerBasketValueData} options={lineChartOptions} />
         </div>
-      </div>
+        </div>
+      ) : (
+        <div className="dashboard-grid">
+          {/* Personal Task Performance */}
+          <div className="chart-card">
+            <h3>Moje Wykonane Zadania</h3>
+            <Bar data={personalTaskData} options={personalTasksBarOptions} />
+          </div>
+
+          {/* Sales Growth */}
+          <div className="chart-card">
+            <h3>Mój Wzrost Sprzedaży</h3>
+            <Line data={salesGrowthData} options={lineChartOptions} />
+          </div>
+
+          {/* Manager Comparison */}
+          <div className="chart-card">
+            <h3>Porównanie z Innymi Kierownikami</h3>
+            <Bar data={managerComparisonData} options={barChartOptions} />
+          </div>
+
+
+
+          {/* Personal Stats Cards */}
+          <div className="chart-card">
+            <h3>Moje Statystyki</h3>
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-value">28</div>
+                <div className="stat-label">Wykonane zadania</div>
+                <div className="stat-change positive">+12% vs miesiąc temu</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">85%</div>
+                <div className="stat-label">Satyfakcja klientów</div>
+                <div className="stat-change positive">+7% vs miesiąc temu</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">22%</div>
+                <div className="stat-label">Wzrost sprzedaży</div>
+                <div className="stat-change positive">+4% vs miesiąc temu</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-value">#2</div>
+                <div className="stat-label">Ranking kierowników</div>
+                <div className="stat-change neutral">Bez zmian</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal Achievements */}
+          <div className="chart-card">
+            <h3>Moje Osiągnięcia</h3>
+            <div className="achievements-container">
+              <div className="achievement-item">
+                <span className="achievement-icon">🏆</span>
+                <div className="achievement-content">
+                  <h4>Najlepszy Kierownik Miesiąca</h4>
+                  <p>Grudzień 2024 - za wzrost sprzedaży o 22%</p>
+                </div>
+              </div>
+              <div className="achievement-item">
+                <span className="achievement-icon">⭐</span>
+                <div className="achievement-content">
+                  <h4>100% Rozwiązanych Zgłoszeń</h4>
+                  <p>Wszystkie zadania ukończone w terminie</p>
+                </div>
+              </div>
+              <div className="achievement-item">
+                <span className="achievement-icon">📈</span>
+                <div className="achievement-content">
+                  <h4>Rekordowa Satysfakcja Klientów</h4>
+                  <p>85% pozytywnych opinii - najlepszy wynik w firmie</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

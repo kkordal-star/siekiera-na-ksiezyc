@@ -25,7 +25,7 @@ interface TabItem {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const tabs: TabItem[] = [
-    { id: 'dashboard', label: 'Dashboard - Kierownik', icon: FiTrendingUp },
+          { id: 'dashboard', label: 'Dashboard - Sklep', icon: FiTrendingUp },
     { id: 'tasks', label: 'Zadania', icon: FiCheckSquare },
     { id: 'users', label: 'Użytkownicy', icon: FiUsers },
     { id: 'products', label: 'Produkt', icon: FiPackage },
