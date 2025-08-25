@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/kkordal-star/siekiera-na-ksiezyc.git/static/css/main.9360ce15.css",
+    "main.js": "/kkordal-star/siekiera-na-ksiezyc.git/static/js/main.fadadf02.js",
+    "index.html": "/kkordal-star/siekiera-na-ksiezyc.git/index.html",
+    "main.9360ce15.css.map": "/kkordal-star/siekiera-na-ksiezyc.git/static/css/main.9360ce15.css.map",
+    "main.fadadf02.js.map": "/kkordal-star/siekiera-na-ksiezyc.git/static/js/main.fadadf02.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9360ce15.css",
+    "static/js/main.fadadf02.js"
+  ]
+}
