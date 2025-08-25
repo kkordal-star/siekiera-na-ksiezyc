@@ -32,6 +32,8 @@ ChartJS.register(
 
 interface MainContentProps {
   activeTab: TabType;
+  selectedTask: string | null;
+  onTaskSelect: (taskId: string) => void;
 }
 
 interface Task {
@@ -47,7 +49,7 @@ interface Task {
   createdAt: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
+const MainContent: React.FC<MainContentProps> = ({ activeTab, selectedTask, onTaskSelect }) => {
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: '1',
@@ -123,6 +125,134 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
     }
   ]);
 
+  // Customer opinions data for each task
+  const customerOpinions = {
+    '1': [
+      {
+        id: '1',
+        customerName: 'Marek Kowalczyk',
+        rating: 2,
+        comment: 'System zawiesza się przy płatności. Próbowałem 3 razy i za każdym razem to samo. Bardzo frustrujące!',
+        date: '2024-01-18',
+        sentiment: 'negative'
+      },
+      {
+        id: '2',
+        customerName: 'Anna Wiśniewska',
+        rating: 1,
+        comment: 'Nie mogę dokończyć zamówienia. System się zawiesza przy wyborze metody płatności. Proszę o naprawę!',
+        date: '2024-01-19',
+        sentiment: 'negative'
+      },
+      {
+        id: '3',
+        customerName: 'Piotr Nowak',
+        rating: 2,
+        comment: 'Próbowałem zamówić ciasto online, ale system nie działa. Szkoda, bo chciałem zrobić niespodziankę żonie.',
+        date: '2024-01-20',
+        sentiment: 'negative'
+      }
+    ],
+    '2': [
+      {
+        id: '4',
+        customerName: 'Katarzyna Zielińska',
+        rating: 2,
+        comment: 'Ciasta są za słodkie i mają dziwny smak. Nie polecam tej filii.',
+        date: '2024-01-20',
+        sentiment: 'negative'
+      },
+      {
+        id: '5',
+        customerName: 'Tomasz Lewandowski',
+        rating: 1,
+        comment: 'Składniki wyglądają na nieświeże. Smak jest okropny. Proszę o kontrolę jakości.',
+        date: '2024-01-21',
+        sentiment: 'negative'
+      },
+      {
+        id: '6',
+        customerName: 'Maria Dąbrowska',
+        rating: 3,
+        comment: 'Ciasta są średnie. Mogłyby być lepsze za taką cenę.',
+        date: '2024-01-22',
+        sentiment: 'neutral'
+      }
+    ],
+    '3': [
+      {
+        id: '7',
+        customerName: 'Jan Kowalczyk',
+        rating: 2,
+        comment: 'Dostawa spóźniona o 3 godziny. Klient był bardzo niezadowolony.',
+        date: '2024-01-18',
+        sentiment: 'negative'
+      },
+      {
+        id: '8',
+        customerName: 'Agnieszka Wiśniewska',
+        rating: 1,
+        comment: 'Spóźnienie o 2 godziny. To nieprofesjonalne podejście.',
+        date: '2024-01-19',
+        sentiment: 'negative'
+      }
+    ],
+    '4': [
+      {
+        id: '9',
+        customerName: 'Ewa Nowak',
+        rating: 2,
+        comment: 'Nie ma informacji o alergenach. Jako alergik nie mogę bezpiecznie zamówić.',
+        date: '2024-01-14',
+        sentiment: 'negative'
+      },
+      {
+        id: '10',
+        customerName: 'Michał Zieliński',
+        rating: 3,
+        comment: 'Menu jest nieaktualne. Brakuje informacji o składnikach.',
+        date: '2024-01-15',
+        sentiment: 'neutral'
+      }
+    ],
+    '5': [
+      {
+        id: '11',
+        customerName: 'Karolina Lewandowska',
+        rating: 1,
+        comment: 'W lokalu jest za gorąco. Ciasta się psują, a klienci są niezadowoleni.',
+        date: '2024-01-21',
+        sentiment: 'negative'
+      },
+      {
+        id: '12',
+        customerName: 'Adam Dąbrowski',
+        rating: 2,
+        comment: 'Temperatura w lokalu jest nieodpowiednia. Trudno tam przebywać.',
+        date: '2024-01-22',
+        sentiment: 'negative'
+      }
+    ],
+    '6': [
+      {
+        id: '13',
+        customerName: 'Natalia Kowalska',
+        rating: 1,
+        comment: 'Pracownicy są nieuprzejmi i niechętni do pomocy.',
+        date: '2024-01-22',
+        sentiment: 'negative'
+      },
+      {
+        id: '14',
+        customerName: 'Łukasz Wiśniewski',
+        rating: 2,
+        comment: 'Obsługa klienta pozostawia wiele do życzenia. Szkoda, bo ciasta są dobre.',
+        date: '2024-01-23',
+        sentiment: 'negative'
+      }
+    ]
+  };
+
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [priorityFilter, setPriorityFilter] = useState<string>('');
   const [responsibilityFilter, setResponsibilityFilter] = useState<string>('');
@@ -136,41 +266,64 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
     labels: ['Warszawa Centrum', 'Kraków', 'Poznań', 'Wrocław', 'Gdańsk', 'Twój Sklep'],
     datasets: [
       {
-        label: 'NPS Score',
-        data: [72, 68, 65, 70, 73, 82],
-        backgroundColor: [
-          '#3DAC19',
-          '#FFCC33',
-          '#F9062F',
-          '#4CAF50',
-          '#FF9800',
-          '#9C27B0',
-        ],
+        label: 'Pozytywny (%)',
+        data: [65, 60, 55, 70, 68, 75],
+        backgroundColor: '#3DAC19',
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Neutralny (%)',
+        data: [25, 30, 35, 20, 25, 20],
+        backgroundColor: '#FFCC33',
+        stack: 'Stack 0',
+      },
+      {
+        label: 'Negatywny (%)',
+        data: [10, 10, 10, 10, 7, 5],
+        backgroundColor: '#F9062F',
+        stack: 'Stack 0',
       },
     ],
   };
 
-  const employeeFeedbackData = {
-    labels: ['Anna Kowalska', 'Piotr Wiśniewski', 'Maria Nowak', 'Tomasz Lewandowski', 'Katarzyna Dąbrowska', 'Jan Zieliński'],
-    datasets: [
-      {
-        label: 'Pochwały (%)',
-        data: [85.7, 61.5, 93.8, 42.9, 76.9, 69.2],
-        backgroundColor: '#3DAC19',
-        borderColor: '#3DAC19',
-        borderWidth: 1,
-        stack: 'Stack 0',
-      },
-      {
-        label: 'Krytyka (%)',
-        data: [14.3, 38.5, 6.2, 57.1, 23.1, 30.8],
-        backgroundColor: '#F9062F',
-        borderColor: '#F9062F',
-        borderWidth: 1,
-        stack: 'Stack 0',
-      },
-    ],
-  };
+  const employeeQuotesData = [
+    {
+      name: 'Anna Kowalska',
+      role: 'Kierownik sklepu',
+      quote: '"Pani Anna jest po prostu wspaniała! Zawsze znajdzie czas, żeby pomóc i doradzić. Dziękuję za świetną obsługę!"',
+      sentiment: 'positive'
+    },
+    {
+      name: 'Piotr Wiśniewski',
+      role: 'Sprzedawca',
+      quote: '"Pan Piotr jest bardzo miły i pomocny, ale ostatnio pomylił moje zamówienie. Mimo to, nadal go lubię."',
+      sentiment: 'mixed'
+    },
+    {
+      name: 'Maria Nowak',
+      role: 'Kasjerka',
+      quote: '"Maria to najlepsza kasjerka jaką kiedykolwiek spotkałem! Zawsze uśmiechnięta i cierpliwa. 10/10!"',
+      sentiment: 'positive'
+    },
+    {
+      name: 'Tomasz Lewandowski',
+      role: 'Magazynier',
+      quote: '"Tomasz jest bardzo nieuprzejmy. Kiedy pytam o produkty, robi minę jakbym mu przeszkadzał. Nie polecam."',
+      sentiment: 'negative'
+    },
+    {
+      name: 'Katarzyna Dąbrowska',
+      role: 'Sprzedawca',
+      quote: '"Kasia to skarb! Pomogła mi wybrać idealny prezent dla mamy. Jestem zachwycona jej wiedzą i uprzejmością."',
+      sentiment: 'positive'
+    },
+    {
+      name: 'Jan Zieliński',
+      role: 'Kierownik zmiany',
+      quote: '"Jan jest dobry w organizacji pracy, ale czasem bywa zbyt szorstki. Może być miły, ale nie zawsze."',
+      sentiment: 'mixed'
+    }
+  ];
 
   const customerSentimentData = {
     labels: ['Pozytywny', 'Neutralny', 'Negatywny'],
@@ -193,7 +346,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
   };
 
   const sentimentByTagsData = {
-    labels: ['Jakość', 'Obsługa', 'Ceny', 'Dostawa', 'Atmosfera'],
+    labels: ['Jakość', 'Obsługa', 'Ceny', 'Chrupkość bezy', 'Atmosfera'],
     datasets: [
       {
         label: 'Pozytywny (%)',
@@ -228,19 +381,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
     ],
   };
 
-  const responseRateData = {
-    labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
-    datasets: [
-      {
-        label: 'Response Rate (%)',
-        data: [85, 88, 92, 89, 91, 94],
-        borderColor: '#FFCC33',
-        backgroundColor: 'rgba(255, 204, 51, 0.2)',
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  };
+  const currentResponseRate = 28; // Aktualny Response Rate na dzisiaj
 
   const customerBasketValueData = {
     labels: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze'],
@@ -387,11 +528,11 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
 
   const getPriorityColor = (priority: Task['priority']) => {
     switch (priority) {
-      case 'low': return 'bg-gray-100 text-gray-600';
-      case 'medium': return 'bg-blue-100 text-blue-600';
-      case 'high': return 'bg-orange-100 text-orange-600';
-      case 'urgent': return 'bg-red-100 text-red-600';
-      default: return 'bg-gray-100 text-gray-600';
+      case 'low': return 'bg-green-100 text-green-700';
+      case 'medium': return 'bg-blue-100 text-blue-700';
+      case 'high': return 'bg-orange-100 text-orange-700';
+      case 'urgent': return 'bg-red-100 text-red-700';
+      default: return 'bg-gray-100 text-gray-700';
     }
   };
 
@@ -446,6 +587,11 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
           title: 'Raporty i statystyki',
           description: 'Generowanie raportów, analizy danych i statystyki systemu w czasie rzeczywistym.'
         };
+      case 'task-detail':
+        return {
+          title: 'Szczegóły zadania',
+          description: 'Przegląd szczegółów zadania oraz opinie klientów, które doprowadziły do jego utworzenia.'
+        };
       default:
         return {
           title: 'Witaj w panelu administracyjnym',
@@ -457,16 +603,10 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
   const renderDashboard = () => (
     <div className="dashboard-container">
       <div className="dashboard-grid">
-        {/* Store Comparison */}
+        {/* Task Resolution */}
         <div className="chart-card">
-          <h3>Porównanie z Innymi Filiami</h3>
-          <Bar data={storeComparisonData} options={barChartOptions} />
-        </div>
-
-        {/* Employee Feedback */}
-        <div className="chart-card">
-          <h3>Feedback Pracowników</h3>
-          <Bar data={employeeFeedbackData} options={barChartOptions} />
+          <h3>Rozwiązanie Zadań</h3>
+          <Doughnut data={taskResolutionData} options={pieChartOptions} />
         </div>
 
         {/* Customer Sentiment */}
@@ -481,16 +621,44 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
           <Bar data={sentimentByTagsData} options={barChartOptions} />
         </div>
 
-        {/* Task Resolution */}
+        {/* Employee Quotes */}
+        <div className="chart-card employee-quotes">
+          <h3>Feedback o pracownikach</h3>
+          <div className="quotes-container">
+            {employeeQuotesData.map((employee, index) => (
+              <div key={index} className={`quote-card ${employee.sentiment}`}>
+                <div className="quote-header">
+                  <h4>{employee.name}</h4>
+                  <span className="role">{employee.role}</span>
+                </div>
+                <blockquote className="quote-text">
+                  {employee.quote}
+                </blockquote>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Store Comparison */}
         <div className="chart-card">
-          <h3>Rozwiązanie Zadań</h3>
-          <Doughnut data={taskResolutionData} options={pieChartOptions} />
+          <h3>Porównanie z Innymi Filiami</h3>
+          <Bar data={storeComparisonData} options={barChartOptions} />
         </div>
 
         {/* Response Rate */}
         <div className="chart-card">
           <h3>Response Rate</h3>
-          <Line data={responseRateData} options={lineChartOptions} />
+          <div className="calendar-card">
+            <div className="calendar-header">
+              <div className="calendar-month">GRUDZIEŃ</div>
+              <div className="calendar-year">2024</div>
+            </div>
+            <div className="calendar-body">
+              <div className="response-rate-value">{currentResponseRate}%</div>
+              <div className="response-rate-label">Response Rate</div>
+              <div className="response-rate-period">Za cały miesiąc</div>
+            </div>
+          </div>
         </div>
 
         {/* Customer Basket Value */}
@@ -501,6 +669,119 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
       </div>
     </div>
   );
+
+  const renderTaskDetail = () => {
+    if (!selectedTask) return null;
+    
+    const task = tasks.find(t => t.id === selectedTask);
+    if (!task) return null;
+    
+    const opinions = customerOpinions[selectedTask as keyof typeof customerOpinions] || [];
+    
+    return (
+      <div className="task-detail-container">
+        <div className="task-detail-header">
+          <button 
+            className="back-button"
+            onClick={() => onTaskSelect('')}
+          >
+            ← Wróć do listy zadań
+          </button>
+          <div className="task-header-info">
+            <h2>{task.title}</h2>
+            <div className="task-meta">
+              <span className={`status-badge ${getStatusColor(task.status)}`}>
+                {getStatusLabel(task.status)}
+              </span>
+              <span className={`priority-badge ${getPriorityColor(task.priority)}`}>
+                {getPriorityLabel(task.priority)}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="task-detail-content">
+          <div className="task-info-section">
+            <h3>Informacje o zadaniu</h3>
+            <div className="task-info-grid">
+              <div className="info-item">
+                <label>Opis:</label>
+                <p>{task.description}</p>
+              </div>
+              <div className="info-item">
+                <label>Status:</label>
+                <span className={`status-badge ${getStatusColor(task.status)}`}>
+                  {getStatusLabel(task.status)}
+                </span>
+              </div>
+              <div className="info-item">
+                <label>Priorytet:</label>
+                <span className={`priority-badge ${getPriorityColor(task.priority)}`}>
+                  {getPriorityLabel(task.priority)}
+                </span>
+              </div>
+              <div className="info-item">
+                <label>Odpowiedzialny:</label>
+                <p>{task.assignee}</p>
+              </div>
+              <div className="info-item">
+                <label>Termin:</label>
+                <p>{task.dueDate}</p>
+              </div>
+              <div className="info-item">
+                <label>Tagi:</label>
+                <div className="tags-container">
+                  {task.tags.map((tag, index) => (
+                    <span key={index} className="tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="customer-opinions-section">
+            <h3>Opinie klientów</h3>
+            <p className="opinions-description">
+              Poniżej znajdują się opinie klientów, które doprowadziły do utworzenia tego zadania:
+            </p>
+            
+            <div className="opinions-list">
+              {opinions.map((opinion) => (
+                <div key={opinion.id} className={`opinion-card ${opinion.sentiment}`}>
+                  <div className="opinion-header">
+                    <div className="customer-info">
+                      <h4>{opinion.customerName}</h4>
+                      <span className="opinion-date">{opinion.date}</span>
+                    </div>
+                    <div className="rating">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className={`star ${i < opinion.rating ? 'filled' : ''}`}>
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="opinion-content">
+                    <p>{opinion.comment}</p>
+                  </div>
+                  <div className="sentiment-badge">
+                    {opinion.sentiment === 'positive' ? 'Pozytywna' : 
+                     opinion.sentiment === 'negative' ? 'Negatywna' : 'Neutralna'}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {opinions.length === 0 && (
+              <div className="no-opinions">
+                <p>Brak opinii klientów dla tego zadania.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const content = getContent(activeTab);
 
@@ -574,13 +855,18 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
           
           <tbody>
             {getFilteredTasks().map((task) => (
-              <tr key={task.id}>
+              <tr 
+                key={task.id} 
+                className="task-row clickable"
+                onClick={() => onTaskSelect(task.id)}
+              >
                 <td className="task-info">
                   <div className="task-title">{task.title}</div>
                   <div className="task-description">{task.description}</div>
                 </td>
                 <td>
-                  <div className="responsibility-dropdown">
+                  <div className="responsibility-dropdown"
+                       onClick={(e) => e.stopPropagation()}>
                     <select 
                       value={task.responsibility ? 'true' : 'false'}
                       onChange={(e) => handleResponsibilityChange(task.id, e.target.value === 'true')}
@@ -592,7 +878,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
                   </div>
                 </td>
                 <td>
-                  <div className="status-dropdown">
+                  <div className="status-dropdown"
+                       onClick={(e) => e.stopPropagation()}>
                     <select 
                       value={task.status}
                       onChange={(e) => handleStatusChange(task.id, e.target.value as Task['status'])}
@@ -630,7 +917,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeTab }) => {
       </div>
       
       {activeTab === 'dashboard' ? renderDashboard() : 
-       activeTab === 'tasks' ? renderTasksList() : (
+       activeTab === 'tasks' ? renderTasksList() : 
+       activeTab === 'task-detail' ? renderTaskDetail() : (
         <div className="content-placeholder">
           <h2>{content.title}</h2>
           <p>{content.description}</p>

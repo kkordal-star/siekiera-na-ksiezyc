@@ -427,13 +427,23 @@ body {
 }
 
 .priority-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  display: inline-block;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.priority-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsywność */
@@ -639,11 +649,155 @@ body {
   border-bottom: 2px solid #e9ecef;
 }
 
-.chart-card canvas {
-  max-height: 300px;
-  width: 100% !important;
-  height: 100% !important;
-}
+  .chart-card canvas {
+    max-height: 300px;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Employee Quotes Styles */
+  .employee-quotes .quotes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .quote-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 4px solid #dee2e6;
+    transition: all 0.3s ease;
+  }
+
+  .quote-card.positive {
+    border-left-color: #3DAC19;
+    background: rgba(61, 172, 25, 0.05);
+  }
+
+  .quote-card.mixed {
+    border-left-color: #FFCC33;
+    background: rgba(255, 204, 51, 0.05);
+  }
+
+  .quote-card.negative {
+    border-left-color: #F9062F;
+    background: rgba(249, 6, 47, 0.05);
+  }
+
+  .quote-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .quote-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .quote-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .role {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+  }
+
+  .quote-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* Calendar Card Styles */
+  .calendar-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+    position: relative;
+  }
+
+  .calendar-header {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .calendar-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #6c757d;
+  }
+
+  .calendar-month {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+
+  .calendar-year {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .calendar-body {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: white;
+  }
+
+  .calendar-date {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #F9062F;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(249, 6, 47, 0.2);
+  }
+
+  .response-rate-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #3DAC19;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(61, 172, 25, 0.2);
+  }
+
+  .response-rate-label {
+    font-size: 1rem;
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .response-rate-period {
+    font-size: 0.85rem;
+    color: #adb5bd;
+    font-weight: 400;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 1200px) {
@@ -665,4 +819,250 @@ body {
   .chart-card {
     padding: 1rem;
   }
+}
+
+/* Custom Priority Badge Styles */
+.priority-badge.bg-green-100 {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: 1px solid #c3e6cb;
+}
+
+.priority-badge.bg-blue-100 {
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  border: 1px solid #bee5eb;
+}
+
+.priority-badge.bg-orange-100 {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  border: 1px solid #fdcb6e;
+}
+
+.priority-badge.bg-red-100 {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  border: 1px solid #f5c6cb;
+}
+
+.priority-badge.bg-gray-100 {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #e9ecef;
+}
+
+/* Task Row Clickable Styles */
+.task-row.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.task-row.clickable:hover {
+  background-color: #f8f9fa;
+}
+
+/* Task Detail Styles */
+.task-detail-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.task-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.task-header-info {
+  flex: 1;
+}
+
+.task-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.back-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background: #5a6268;
+}
+
+.task-detail-header h2 {
+  margin: 0;
+  color: #495057;
+  font-size: 1.8rem;
+}
+
+.task-detail-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.task-info-section,
+.customer-opinions-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-info-section h3,
+.customer-opinions-section h3 {
+  margin: 0 0 1rem 0;
+  color: #495057;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.5rem;
+}
+
+.task-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-item p {
+  margin: 0;
+  color: #495057;
+  line-height: 1.5;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.opinions-description {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.opinions-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.opinion-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #dee2e6;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.opinion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.opinion-card.positive {
+  border-left-color: #28a745;
+  background: #d4edda;
+}
+
+.opinion-card.negative {
+  border-left-color: #dc3545;
+  background: #f8d7da;
+}
+
+.opinion-card.neutral {
+  border-left-color: #ffc107;
+  background: #fff3cd;
+}
+
+.opinion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.customer-info h4 {
+  margin: 0 0 0.25rem 0;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.opinion-date {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.rating {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  color: #dee2e6;
+  font-size: 1.2rem;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.opinion-content p {
+  margin: 0;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.sentiment-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.opinion-card.positive .sentiment-badge {
+  background: #28a745;
+  color: white;
+}
+
+.opinion-card.negative .sentiment-badge {
+  background: #dc3545;
+  color: white;
+}
+
+.opinion-card.neutral .sentiment-badge {
+  background: #6c757d;
+  color: white;
+}
+
+.no-opinions {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
 }

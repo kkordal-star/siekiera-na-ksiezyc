@@ -14,13 +14,14 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
     { id: 'products' as TabType, label: 'Produkt', icon: '📦' },
     { id: 'settings' as TabType, label: 'Ustawienia', icon: '⚙️' },
     { id: 'reports' as TabType, label: 'Raporty', icon: '📈' },
+    { id: 'task-detail' as TabType, label: 'Szczegóły zadania', icon: '🔍', hidden: true },
   ];
 
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">
         <ul className="nav-list">
-          {tabs.map((tab) => (
+          {tabs.filter(tab => !tab.hidden).map((tab) => (
             <li 
               key={tab.id} 
               className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
