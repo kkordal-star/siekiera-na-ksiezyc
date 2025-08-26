@@ -211,8 +211,8 @@ body {
 
 .filter-select:focus {
   outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+  border-color: rgb(6 52 199);
+  box-shadow: 0 0 0 2px rgba(6, 52, 199, 0.1);
 }
 
 .search-input {
@@ -227,8 +227,8 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+  border-color: rgb(6 52 199);
+  box-shadow: 0 0 0 2px rgba(6, 52, 199, 0.1);
 }
 
 .clear-filters-btn {
@@ -251,7 +251,7 @@ body {
 
 .add-task-btn {
   padding: 0.75rem 1.5rem;
-  background: #1976d2;
+  background: rgb(6 52 199);
   color: white;
   border: none;
   border-radius: 6px;
@@ -261,7 +261,7 @@ body {
 }
 
 .add-task-btn:hover {
-  background: #1565c0;
+  background: rgb(5 41 159);
 }
 
 .tasks-table {
@@ -350,7 +350,7 @@ body {
 
 .task-title {
   font-weight: 600;
-  color: #1976d2;
+  color: rgb(6 52 199);
   font-size: 0.95rem;
 }
 
@@ -408,8 +408,8 @@ body {
 
 .status-select:focus, .priority-select:focus, .responsibility-select:focus {
   outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+  border-color: rgb(6 52 199);
+  box-shadow: 0 0 0 2px rgba(6, 52, 199, 0.1);
 }
 
 .status-select:hover, .priority-select:hover, .responsibility-select:hover {
@@ -420,7 +420,7 @@ body {
   display: inline-block;
   padding: 0.2rem 0.5rem;
   background: #e3f2fd;
-  color: #1976d2;
+  color: rgb(6 52 199);
   border-radius: 4px;
   font-size: 0.75rem;
   margin-right: 0.25rem;
@@ -1344,6 +1344,165 @@ body {
 
 .phone-close-btn:hover {
   background: rgb(5 41 159);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body p {
+  margin: 0 0 1rem 0;
+  color: #6c757d;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.modal-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.modal-btn-primary {
+  background: rgb(6 52 199);
+  color: white;
+}
+
+.modal-btn-primary:hover:not(:disabled) {
+  background: rgb(5 41 159);
+}
+
+.modal-btn-primary:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+}
+
+.modal-btn-secondary {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+.modal-btn-secondary:hover {
+  background: #e9ecef;
+  color: #495057;
+}
+
+/* Responsibility Modal Styles */
+.responsibility-modal {
+  max-width: 500px;
+}
+
+.responsibility-reason-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s ease;
+}
+
+.responsibility-reason-input:focus {
+  outline: none;
+  border-color: rgb(6 52 199);
+  box-shadow: 0 0 0 2px rgba(6, 52, 199, 0.1);
+}
+
+.responsibility-reason-input::placeholder {
+  color: #adb5bd;
+}
+
+.responsibility-status {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 0.25rem;
+  text-align: center;
+}
+
+/* Modal Animations */
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* Phone Animations */

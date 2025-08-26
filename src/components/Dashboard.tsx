@@ -216,7 +216,7 @@ const Dashboard: React.FC = () => {
         ],
         borderColor: [
           '#388E3C',
-          '#1976D2',
+          'rgb(6 52 199)',
           '#F57C00',
           '#7B1FA2',
           '#D32F2F',

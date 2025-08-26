@@ -2,7 +2,8 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  responsibility: boolean;
+  responsibility: boolean | undefined;
+  responsibilityReason?: string;
   status: 'nowe' | 'w-trakcie' | 'zrobione';
   priority: 'low' | 'medium' | 'high' | 'urgent';
   assignee: string;

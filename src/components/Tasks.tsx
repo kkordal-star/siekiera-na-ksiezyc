@@ -18,6 +18,9 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [completedTaskTitle, setCompletedTaskTitle] = useState<string>('');
   const [showPhoneNotification, setShowPhoneNotification] = useState(false);
+  const [showResponsibilityModal, setShowResponsibilityModal] = useState(false);
+  const [responsibilityReason, setResponsibilityReason] = useState('');
+  const [currentTaskId, setCurrentTaskId] = useState<string>('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const phoneTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -33,10 +36,47 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
     };
   }, []);
 
-  const handleResponsibilityChange = (taskId: string, newResponsibility: boolean) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, responsibility: newResponsibility } : task
-    ));
+  const handleResponsibilityChange = (taskId: string, newResponsibility: boolean | undefined) => {
+    if (newResponsibility === undefined) {
+      // Jeśli wybrano "Wybierz", ustaw undefined
+      setTasks(tasks.map(task => 
+        task.id === taskId ? { ...task, responsibility: undefined } : task
+      ));
+    } else if (!newResponsibility) {
+      // Jeśli ktoś zaznacza "nie", pokaż modal
+      setCurrentTaskId(taskId);
+      setShowResponsibilityModal(true);
+    } else {
+      // Jeśli zaznacza "tak", od razu zaktualizuj
+      setTasks(tasks.map(task => 
+        task.id === taskId ? { ...task, responsibility: newResponsibility } : task
+      ));
+    }
+  };
+
+  const confirmResponsibilityDecline = () => {
+    if (responsibilityReason.trim()) {
+      // Zaktualizuj zadanie z powodem odmowy
+      setTasks(tasks.map(task => 
+        task.id === currentTaskId ? { 
+          ...task, 
+          responsibility: false,
+          responsibilityReason: responsibilityReason.trim()
+        } : task
+      ));
+      
+      // Zamknij modal i wyczyść dane
+      setShowResponsibilityModal(false);
+      setResponsibilityReason('');
+      setCurrentTaskId('');
+    }
+  };
+
+  const cancelResponsibilityDecline = () => {
+    // Zamknij modal i wyczyść dane bez zmiany
+    setShowResponsibilityModal(false);
+    setResponsibilityReason('');
+    setCurrentTaskId('');
   };
 
   const handleStatusChange = (taskId: string, newStatus: Task['status']) => {
@@ -87,8 +127,8 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
       
       // Responsibility filter
       if (responsibilityFilter) {
-        const taskResponsibility = task.responsibility ? 'true' : 'false';
-        if (taskResponsibility !== responsibilityFilter) return false;
+        if (responsibilityFilter === 'true' && !task.responsibility) return false;
+        if (responsibilityFilter === 'false' && task.responsibility !== false) return false;
       }
       
       // Search query
@@ -192,14 +232,24 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
                   <div className="responsibility-dropdown"
                        onClick={(e) => e.stopPropagation()}>
                     <select 
-                      value={task.responsibility ? 'true' : 'false'}
-                      onChange={(e) => handleResponsibilityChange(task.id, e.target.value === 'true')}
+                      value={task.responsibility === undefined ? '' : (task.responsibility ? 'true' : 'false')}
+                      onChange={(e) => {
+                        if (e.target.value === '') {
+                          handleResponsibilityChange(task.id, undefined);
+                        } else {
+                          handleResponsibilityChange(task.id, e.target.value === 'true');
+                        }
+                      }}
                       className="responsibility-select"
                     >
-                      <option value="false">Nie</option>
+                      <option value="">Wybierz</option>
                       <option value="true">Tak</option>
+                      <option value="false">Nie</option>
                     </select>
                   </div>
+                  {task.responsibility === undefined && (
+                    <div className="responsibility-status">Nie wybrano</div>
+                  )}
                 </td>
                 <td>
                   <div className="status-dropdown"
@@ -271,6 +321,48 @@ const Tasks: React.FC<TasksProps> = ({ onTaskSelect }) => {
             </div>
           </div>
         </>
+      )}
+
+      {/* Responsibility Decline Modal */}
+      {showResponsibilityModal && (
+        <div className="modal-overlay">
+          <div className="modal-content responsibility-modal">
+            <div className="modal-header">
+              <h3>Odmowa odpowiedzialności</h3>
+              <button 
+                className="modal-close"
+                onClick={cancelResponsibilityDecline}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>Proszę podać powód odmowy odpowiedzialności za to zadanie:</p>
+              <textarea
+                className="responsibility-reason-input"
+                value={responsibilityReason}
+                onChange={(e) => setResponsibilityReason(e.target.value)}
+                placeholder="Wpisz powód odmowy odpowiedzialności..."
+                rows={4}
+              />
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="modal-btn modal-btn-secondary"
+                onClick={cancelResponsibilityDecline}
+              >
+                Anuluj
+              </button>
+              <button 
+                className="modal-btn modal-btn-primary"
+                onClick={confirmResponsibilityDecline}
+                disabled={!responsibilityReason.trim()}
+              >
+                Potwierdź
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Phone with Push Notification */}
